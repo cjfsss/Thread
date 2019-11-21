@@ -6,6 +6,8 @@ import com.cjf.thread.expand.task.listener.ThreadResultListener;
 
 import java.util.concurrent.CountDownLatch;
 
+import androidx.annotation.NonNull;
+
 /**
  * @Packname: com.mapuni.arcgis.http.upload
  * @ClassName: UploadListener
@@ -15,10 +17,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public class ThreadResult implements Runnable {
 
-    private CountDownLatch downLatch;
-    private ThreadResultListener listener;
+    private final CountDownLatch downLatch;
+    private final ThreadResultListener listener;
 
-    public ThreadResult(CountDownLatch countDownLatch, ThreadResultListener listener) {
+    public ThreadResult(@NonNull final CountDownLatch countDownLatch,@NonNull final ThreadResultListener listener) {
         this.downLatch = countDownLatch;
         this.listener = listener;
     }
@@ -35,11 +37,11 @@ public class ThreadResult implements Runnable {
 
     private void onSuccess() {
         //所有线程执行完毕
-        ConnectThread.getAppExecutor().execute(() -> listener.onSuccess());
+        ConnectThread.getAppExecutor().execute(listener::onSuccess);
     }
 
     private void onFailed() {
         //所有线程执行出现问题
-        ConnectThread.getAppExecutor().execute(() -> listener.onFailed());
+        ConnectThread.getAppExecutor().execute(listener::onFailed);
     }
 }

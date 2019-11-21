@@ -5,6 +5,8 @@ import com.cjf.thread.expand.task.ThreadTaskRun;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 /**
  * @ProjectName: Thread
  * @Package: com.cjf.thread.expand.app.listener
@@ -23,14 +25,14 @@ public interface IThreadTask {
      *
      * @param executorServiceListener 监听事件
      */
-    IThreadTask addExecutorServiceListener(ThreadTaskListener executorServiceListener);
+    IThreadTask addExecutorServiceListener(@NonNull final ThreadTaskListener executorServiceListener);
 
     /**
      * 移除监听事件
      *
      * @param executorServiceListener 监听事件
      */
-    IThreadTask removeExecutorServiceListener(ThreadTaskListener executorServiceListener);
+    IThreadTask removeExecutorServiceListener(@NonNull final ThreadTaskListener executorServiceListener);
 
     /**
      * 清空所有
@@ -47,14 +49,14 @@ public interface IThreadTask {
      *
      * @param executorServiceRunnableList 内容
      */
-    <T> void submitAll(List<ThreadTaskRun<T>> executorServiceRunnableList);
+    <T> void submitAll(@NonNull final List<ThreadTaskRun<T>> executorServiceRunnableList);
 
     /**
      * 线程并行执行
      *
      * @param executorServiceRunnableList 内容
      */
-    default <T> void submitAll(ThreadTaskRun<T>... executorServiceRunnableList) {
+    default <T> void submitAll(@NonNull final ThreadTaskRun<T>... executorServiceRunnableList) {
         submitAll(Arrays.asList(executorServiceRunnableList));
     }
 
@@ -64,6 +66,6 @@ public interface IThreadTask {
      * @param executorServiceRunnableList 要执行的
      * @param isParallel                  true 并行线程 false 串行线程
      */
-    <T> void submitAll(List<ThreadTaskRun<T>> executorServiceRunnableList, boolean isParallel);
+    <T> void submitAll(@NonNull final List<ThreadTaskRun<T>> executorServiceRunnableList, boolean isParallel);
 
 }

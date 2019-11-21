@@ -3,6 +3,8 @@ package com.cjf.thread.expand.task.listener;
 
 import com.cjf.thread.expand.task.ThreadProgress;
 
+import androidx.annotation.NonNull;
+
 /**
  * @ProjectName: MobileEnforcement-BeiJing
  * @Package: com.mapuni.android.core.net.thread.listener
@@ -17,14 +19,14 @@ import com.cjf.thread.expand.task.ThreadProgress;
  */
 public interface ThreadProgressListener {
 
-    void onProgressChange(ThreadProgress progress);
+    void onProgressChange(final ThreadProgress progress);
 
     /**
      * 线程结束，始终都会调用
      *
      * @param progress
      */
-    void onThreadFinish(ThreadProgress progress);
+    void onThreadFinish(final ThreadProgress progress);
 
 
 }

@@ -2,6 +2,8 @@ package com.cjf.thread.expand.appexecutor;
 
 import java.util.concurrent.ExecutorService;
 
+import androidx.annotation.NonNull;
+
 /**
  * @ProjectName: Thread
  * @Package: com.cjf.thread.expand.app.listener
@@ -21,16 +23,18 @@ public interface IThreadApp extends ThreadMain {
      * @param threadSize 线程数
      * @return 当前对象
      */
-    IThreadApp updatePoolIO(int threadSize);
+    IThreadApp updatePoolIO(final int threadSize);
 
     /**
      * 单线程线程池
      */
+    @NonNull
     ExecutorService singleIO();
 
     /**
      * 多线程线程池
      */
+    @NonNull
     ExecutorService poolIO();
 
     /**
@@ -38,6 +42,7 @@ public interface IThreadApp extends ThreadMain {
      *
      * @return 主线程
      */
+    @NonNull
     ThreadMain mainThread();
 
     /**
@@ -45,5 +50,6 @@ public interface IThreadApp extends ThreadMain {
      *
      * @return 并行的线程池
      */
+    @NonNull
     ExecutorService getExecutorService();
 }

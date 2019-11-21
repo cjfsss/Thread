@@ -4,6 +4,8 @@ import android.os.Message;
 
 import java.util.concurrent.Executor;
 
+import androidx.annotation.NonNull;
+
 /**
  * @ProjectName: XAOP-master
  * @Package: com.xuexiang.xaop.checker
@@ -24,9 +26,10 @@ public interface ThreadMain extends Executor {
      * @param delayMillis 延迟时间
      * @return
      */
-    boolean postDelayed(Runnable r, long delayMillis);
+    boolean postDelayed( final Runnable r, final long delayMillis);
 
     boolean postAtTime(Runnable r, long uptimeMillis);
 
+    @NonNull
     Message getMessage();
 }

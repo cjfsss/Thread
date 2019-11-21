@@ -3,6 +3,7 @@ package com.cjf.thread.expand;
 import com.cjf.thread.expand.appexecutor.IThreadApp;
 import com.cjf.thread.expand.task.listener.IThreadTask;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 /**
@@ -21,15 +22,18 @@ public class ConnectThread {
 
     public static final String EXECUTOR_TASK = ThreadTask.class.getSimpleName();
 
+    @NonNull
     public static final IThreadApp getAppExecutor() {
         return ThreadApp.get();
     }
 
+    @NonNull
     public static IThreadTask create() {
         return new ThreadTask();
     }
 
-    public static IThreadTask create(LifecycleOwner lifecycleOwner) {
+    @NonNull
+    public static IThreadTask create(@NonNull final LifecycleOwner lifecycleOwner) {
         return new ThreadTask(lifecycleOwner);
     }
 }

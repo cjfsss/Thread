@@ -47,7 +47,7 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
     ThreadTask() {
     }
 
-    ThreadTask(LifecycleOwner lifecycleOwner) {
+    ThreadTask(@NonNull final LifecycleOwner lifecycleOwner) {
         lifecycleOwner.getLifecycle().addObserver(this);
     }
 
@@ -59,7 +59,8 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
     }
 
     @Override
-    public IThreadTask addExecutorServiceListener(ThreadTaskListener executorServiceListener) {
+    @NonNull
+    public IThreadTask addExecutorServiceListener(@NonNull final ThreadTaskListener executorServiceListener) {
         if (mExecutorServiceListeners == null) {
             mExecutorServiceListeners = new ArrayList<>();
         }
@@ -70,7 +71,8 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
     }
 
     @Override
-    public IThreadTask removeExecutorServiceListener(ThreadTaskListener executorServiceListener) {
+    @NonNull
+    public IThreadTask removeExecutorServiceListener(@NonNull final ThreadTaskListener executorServiceListener) {
         if (mExecutorServiceListeners != null && !mExecutorServiceListeners.isEmpty()) {
             mExecutorServiceListeners.remove(executorServiceListener);
         }
@@ -101,7 +103,7 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
      * @param executorServiceRunnableList 要执行的
      */
     @Override
-    public <T> void submitAll(List<ThreadTaskRun<T>> executorServiceRunnableList) {
+    public <T> void submitAll(@NonNull final List<ThreadTaskRun<T>> executorServiceRunnableList) {
         submitAll(executorServiceRunnableList, true);
     }
 
@@ -112,7 +114,7 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
      * @param isParallel                  true 并行线程 false 串行线程
      */
     @Override
-    public <T> void submitAll(List<ThreadTaskRun<T>> executorServiceRunnableList, boolean isParallel) {
+    public <T> void submitAll(@NonNull final List<ThreadTaskRun<T>> executorServiceRunnableList,final boolean isParallel) {
         int totalCount = executorServiceRunnableList.size();
 
         mCountDownLatch = new CountDownLatch(totalCount);
@@ -170,7 +172,7 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
     private ThreadProgressListener getExecutorServiceThreadListener() {
         return new ThreadProgressListener() {
             @Override
-            public void onProgressChange(ThreadProgress progress) {
+            public void onProgressChange(@NonNull final ThreadProgress progress) {
                 Log.w(ConnectThread.EXECUTOR_TASK, "THREAD_PROGRESS" + progress.toString());
                 if (mExecutorServiceListeners != null) {
                     for (ThreadTaskListener listener : mExecutorServiceListeners) {
@@ -180,7 +182,7 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
             }
 
             @Override
-            public void onThreadFinish(ThreadProgress progress) {
+            public void onThreadFinish(@NonNull final ThreadProgress progress) {
                 if (!progress.isCurrentSuccess) {
                     // 有失败的线程
                     mErrorThread = true;

@@ -80,7 +80,7 @@ final class ThreadApp implements IThreadApp {
      */
     private ThreadMain mMainThread;
 
-    private ThreadApp(ExecutorService singleIO, ThreadMain mainThread) {
+    private ThreadApp(@NonNull final ExecutorService singleIO,@NonNull final ThreadMain mainThread) {
         mSingleIO = new SoftReference<>(singleIO);
         mMainThread = mainThread;
     }
@@ -92,7 +92,7 @@ final class ThreadApp implements IThreadApp {
      * @return
      */
     @Override
-    public IThreadApp updatePoolIO(int nThreads) {
+    public IThreadApp updatePoolIO(final int nThreads) {
         mPoolIO = new SoftReference<>(Executors.newFixedThreadPool(nThreads));
         return this;
     }
@@ -107,6 +107,7 @@ final class ThreadApp implements IThreadApp {
      *
      * @return
      */
+    @NonNull
     public static IThreadApp get() {
         if (sInstance == null) {
             synchronized (ThreadApp.class) {
@@ -119,6 +120,7 @@ final class ThreadApp implements IThreadApp {
     }
 
     @Override
+    @NonNull
     public ExecutorService singleIO() {
         if (mSingleIO == null || mSingleIO.get() == null) {
             mSingleIO = new SoftReference<>(Executors.newSingleThreadExecutor());
@@ -126,6 +128,7 @@ final class ThreadApp implements IThreadApp {
         return mSingleIO.get();
     }
     @Override
+    @NonNull
     public ExecutorService poolIO() {
         if (mPoolIO == null || mPoolIO.get() == null) {
             mPoolIO = new SoftReference<>(getExecutorService());
@@ -133,6 +136,7 @@ final class ThreadApp implements IThreadApp {
         return mPoolIO.get();
     }
     @Override
+    @NonNull
     public ThreadMain mainThread() {
         if (mMainThread == null) {
             mMainThread = new MainThreadExecutor();
@@ -146,6 +150,7 @@ final class ThreadApp implements IThreadApp {
      * @return
      */
     @Override
+    @NonNull
     public ExecutorService getExecutorService() {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_SECONDS, TimeUnit.SECONDS,
@@ -165,12 +170,13 @@ final class ThreadApp implements IThreadApp {
     }
 
     @Override
+    @NonNull
     public Message getMessage() {
         return mainThread().getMessage();
     }
 
     @Override
-    public void execute(@NonNull Runnable command) {
+    public void execute(@NonNull final Runnable command) {
         if (Looper.getMainLooper() == Looper.myLooper()) {
             // 主线程
             command.run();
@@ -190,6 +196,7 @@ final class ThreadApp implements IThreadApp {
          *
          * @return 主线程Handler
          */
+        @NonNull
         private Handler getMainThreadHandler() {
             if (mainThreadHandler == null) {
                 mainThreadHandler = new Handler(Looper.getMainLooper());
@@ -198,21 +205,22 @@ final class ThreadApp implements IThreadApp {
         }
 
         @Override
-        public void execute(@NonNull Runnable command) {
+        public void execute(@NonNull final Runnable command) {
             getMainThreadHandler().post(command);
         }
 
         @Override
-        public boolean postDelayed(Runnable r, long delayMillis) {
+        public boolean postDelayed(@NonNull final Runnable r, final long delayMillis) {
             return getMainThreadHandler().postDelayed(r, delayMillis);
         }
 
         @Override
-        public boolean postAtTime(Runnable r, long uptimeMillis) {
+        public boolean postAtTime(@NonNull final Runnable r,@NonNull final long uptimeMillis) {
             return getMainThreadHandler().postAtTime(r, uptimeMillis);
         }
 
         @Override
+        @NonNull
         public Message getMessage() {
             return mainThreadHandler.obtainMessage();
         }
