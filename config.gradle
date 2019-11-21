@@ -1,0 +1,74 @@
+ext {
+
+    //统一管理版本信息
+    android = [
+            compileSdkVersion: 29,        //compileSdkVersion 26
+            multiDexEnabled  : false,        //超过65535需要进行分包
+            buildToolsVersion: "29.0.2",  //buildToolsVersion "25.0.2"
+            applicationId    : "okgo.cjf.demo",
+            minSdkVersion    : 18,            //minSdkVersion 14
+            targetSdkVersion : 29,         //targetSdkVersion 26
+            versionCode      : 1,               //versionCode 1
+            versionName      : "1.0.0"            //versionName "1.0"
+    ]
+
+    configs = [
+
+            storePassword       : 'mapuni',
+            keyPassword         : 'mapuni',
+            keyAlias            : 'android.keystore',
+            storeFile           : file("android.keystore"),
+
+            // 打包是否混淆
+            debugMinifyEnabled  : false,
+            // 打包是否混淆
+            releaseMinifyEnabled: true,
+            // Zipalign优化
+            zipAlignEnabled     : true,
+            // 移除无用的resource文件
+            shrinkResources     : false,
+            // Apk名称
+            releaseApkName      : android.applicationId + "-release-" + android.versionName + ".apk",
+            // Apk名称
+            debugApkName        : android.applicationId + "-debug-" + android.versionName + ".apk"
+    ]
+
+    version = [
+
+            retrofitSdkVersion           : "2.6.1",
+            glideSdkVersion              : "4.8.0",
+
+            androidSupportSdkVersion     : "29.0.2",
+            constraintlayoutSdkVersion   : "1.1.3",
+            multidexSdkVersion           : "1.0.2",
+            bottomNavigationBarSdkVersion: "2.0.4",
+            butterknifeSdkVersion        : "8.8.1",
+            okhttpSdkVersion             : "3.11.0",
+            eventbusSdkVersion           : "3.0.0",
+            baseAdapterHelperSdkVersion  : "2.9.30",
+            easySwipeMenuLayoutVersion   : "1.1.2",
+            junitSdkVersion              : "4.12"
+    ]
+
+    deps = [
+            //support
+            SupportDesign          : "com.google.android.material:material:1.0.0+",
+            AppCompat              : "androidx.appcompat:appcompat:1.0.0+",
+            Annotation             : "androidx.annotation:annotation:1.1.0+",
+            Collection             : "androidx.collection:collection:1.1.0+",
+            Lifecycle             : "androidx.lifecycle:lifecycle-common:2.0.0+",
+            Viewpager              : "androidx.viewpager:viewpager:1.0.0+",
+            Fragment               : "androidx.fragment:fragment:1.0.0+",
+            // com.android.support:support-v4:28.0.2
+            SupportV4              : "androidx.legacy:legacy-support-v4:1.0.0+",
+            // com.android.support:recyclerview-v7:28.0.2
+            SupportRecyclerview    : "androidx.recyclerview:recyclerview:1.0.0+",
+            // com.android.support.constraint:constraint-layout:1.1.2
+            SupportConstraintLayout: "androidx.constraintlayout:constraintlayout:1.1.2+}",
+            Multidex               : "androidx.multidex:multidex:2.0.0+",
+            CollectionExpand       : "com.github.cjfsss:Collection:1.0.4",
+            Okgo                   : 'com.lzy.net:okgo:3.0.4',
+            Gson                   : "com.google.code.gson:gson:2.8.5",
+            FastjsonAndroid        : 'com.alibaba:fastjson:1.1.71.android',
+    ]
+}

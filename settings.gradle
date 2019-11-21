@@ -1,0 +1,2 @@
+include ':app', ':thread-expand'
+rootProject.name='Thread'
