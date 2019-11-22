@@ -3,7 +3,7 @@
 
 ## 必须使用
 
-##### implementation 'com.github.cjfsss:Thread:1.0.1'
+##### implementation 'com.github.cjfsss:Thread:1.0.2'
 
 
 
