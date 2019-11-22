@@ -30,7 +30,7 @@ import androidx.core.view.LayoutInflaterCompat;
  * 2. super.onCreate之前调用没有了默认的Factory；
  * 3. 排队过多的优化；
  */
-final class AsyncLayoutInflaterPlus {
+public final class AsyncLayoutInflaterPlus {
 
     private static final String TAG = "AsyncLayoutInflaterPlus";
     private final Handler mHandler;
@@ -50,7 +50,7 @@ final class AsyncLayoutInflaterPlus {
 
     @UiThread
     public void inflate(@LayoutRes int resid, @Nullable ViewGroup parent, @NonNull CountDownLatch countDownLatch,
-                        @NonNull AsyncLayoutInflaterPlus.OnInflateFinishedListener callback) {
+                        @NonNull OnInflateFinishedListener callback) {
         if (callback == null) {
             throw new NullPointerException("callback argument may not be null!");
         }
@@ -93,10 +93,6 @@ final class AsyncLayoutInflaterPlus {
         }
     };
 
-    public interface OnInflateFinishedListener {
-        void onInflateFinished(View view, int resid, ViewGroup parent);
-    }
-
     private class InflateRunnable implements Runnable {
         private InflateRequest request;
         private boolean isRunning;
@@ -130,7 +126,7 @@ final class AsyncLayoutInflaterPlus {
         ViewGroup parent;
         int resid;
         View view;
-        AsyncLayoutInflaterPlus.OnInflateFinishedListener callback;
+        OnInflateFinishedListener callback;
         CountDownLatch countDownLatch;
 
         InflateRequest() {

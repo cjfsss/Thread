@@ -51,18 +51,18 @@ public final class AsyncLayoutLoader implements LifecycleObserver {
     }
 
     @UiThread
-    public void inflate(@LayoutRes int resId,@NonNull AsyncLayoutInflaterPlus.OnInflateFinishedListener listener) {
+    public void inflate(@LayoutRes int resId,@NonNull OnInflateFinishedListener listener) {
         inflate(resId, null, listener);
     }
 
     @UiThread
     public void inflate(@LayoutRes int resId, @Nullable ViewGroup parent,
-                        AsyncLayoutInflaterPlus.OnInflateFinishedListener listener) {
+                        OnInflateFinishedListener listener) {
         mRootView = parent;
         mLayoutId = resId;
         sArrayCompat.append(mLayoutId, this);
         if (listener == null) {
-            listener = new AsyncLayoutInflaterPlus.OnInflateFinishedListener() {
+            listener = new OnInflateFinishedListener() {
                 @Override
                 public void onInflateFinished(View view, int resid, ViewGroup parent) {
                     mRealView = view;
