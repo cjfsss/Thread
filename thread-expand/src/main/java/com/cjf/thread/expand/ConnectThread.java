@@ -1,5 +1,8 @@
 package com.cjf.thread.expand;
 
+import android.content.Context;
+
+import com.cjf.thread.expand.inflater.AsyncLayoutLoader;
 import com.cjf.thread.expand.task.listener.IThreadTask;
 
 import androidx.annotation.NonNull;
@@ -25,6 +28,11 @@ public class ConnectThread {
     @NonNull
     public static final ThreadTaskExecutor getExecutor() {
         return ThreadTaskExecutor.getInstance();
+    }
+
+    @NonNull
+    public static AsyncLayoutLoader layoutLoader(Context context) {
+        return AsyncLayoutLoader.getInstance(context);
     }
 
     @NonNull

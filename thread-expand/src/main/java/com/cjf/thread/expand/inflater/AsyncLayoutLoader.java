@@ -15,11 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.collection.SparseArrayCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
 
 /**
  * 调用入口类；同时解决加载和获取View在不同类的场景
  */
-public final class AsyncLayoutLoader {
+public final class AsyncLayoutLoader implements LifecycleObserver {
 
     private int mLayoutId;
     private View mRealView;
@@ -34,6 +38,9 @@ public final class AsyncLayoutLoader {
     }
 
     private AsyncLayoutLoader(Context context) {
+        if (context instanceof LifecycleOwner) {
+            ((LifecycleOwner) context).getLifecycle().addObserver(this);
+        }
         this.mContext = context;
         mCountDownLatch = new CountDownLatch(1);
     }
@@ -129,4 +136,11 @@ public final class AsyncLayoutLoader {
         mRealView = LayoutInflater.from(mContext).inflate(mLayoutId, mRootView, false);
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onDestroy(LifecycleOwner owner) {
+        mRealView = null;
+        mContext = null;
+        mRootView = null;
+        owner.getLifecycle().removeObserver(this);
+    }
 }
