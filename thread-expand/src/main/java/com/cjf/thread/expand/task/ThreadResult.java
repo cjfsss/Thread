@@ -37,11 +37,11 @@ public class ThreadResult implements Runnable {
 
     private void onSuccess() {
         //所有线程执行完毕
-        ConnectThread.getAppExecutor().execute(listener::onSuccess);
+        ConnectThread.getExecutor().execute(listener::onSuccess);
     }
 
     private void onFailed() {
         //所有线程执行出现问题
-        ConnectThread.getAppExecutor().execute(listener::onFailed);
+        ConnectThread.getExecutor().execute(listener::onFailed);
     }
 }

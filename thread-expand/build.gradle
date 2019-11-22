@@ -32,6 +32,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     def deps = rootProject.ext.deps
 
+    implementation deps.Annotation
     implementation deps.Lifecycle
+    implementation deps.AppCompat
 
 }

@@ -1,6 +1,5 @@
 package com.cjf.thread.expand;
 
-import com.cjf.thread.expand.appexecutor.IThreadApp;
 import com.cjf.thread.expand.task.listener.IThreadTask;
 
 import androidx.annotation.NonNull;
@@ -22,9 +21,10 @@ public class ConnectThread {
 
     public static final String EXECUTOR_TASK = ThreadTask.class.getSimpleName();
 
+    @SuppressWarnings("FinalStaticMethod")
     @NonNull
-    public static final IThreadApp getAppExecutor() {
-        return ThreadApp.get();
+    public static final ThreadTaskExecutor getExecutor() {
+        return ThreadTaskExecutor.getInstance();
     }
 
     @NonNull

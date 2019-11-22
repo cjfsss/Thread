@@ -120,10 +120,10 @@ final class ThreadTask implements LifecycleObserver, IThreadTask {
         mCountDownLatch = new CountDownLatch(totalCount);
         if (isParallel) {
             // 获取并行线程
-            mExecutorService = ConnectThread.getAppExecutor().getExecutorService();
+            mExecutorService = ConnectThread.getExecutor().getExecutorService();
         } else {
             // 串行线程
-            mExecutorService = ConnectThread.getAppExecutor().singleIO();
+            mExecutorService = ConnectThread.getExecutor().singleIO();
         }
         mExecutorService.submit(new ThreadResult(mCountDownLatch, new ThreadResultListener() {//创建一个监听线程
             @Override

@@ -88,7 +88,7 @@ public abstract class ThreadTaskRun<T> implements Runnable, ThreadProgressListen
 
     @Override
     public void onProgressChange(@NonNull final ThreadProgress progress) {
-        ConnectThread.getAppExecutor().execute(() -> {
+        ConnectThread.getExecutor().execute(() -> {
             if (mExecutorServiceThreadListener != null) {
                 mExecutorServiceThreadListener.onProgressChange(progress);
             }
@@ -97,7 +97,7 @@ public abstract class ThreadTaskRun<T> implements Runnable, ThreadProgressListen
 
     @Override
     public void onThreadFinish(@NonNull final ThreadProgress progress) {
-        ConnectThread.getAppExecutor().execute(() -> {
+        ConnectThread.getExecutor().execute(() -> {
             if (mExecutorServiceThreadListener != null) {
                 mExecutorServiceThreadListener.onThreadFinish(progress);
             }
