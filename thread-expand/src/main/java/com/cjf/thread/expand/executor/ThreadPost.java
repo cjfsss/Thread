@@ -30,21 +30,21 @@ public interface ThreadPost {
      * @param runnable     主线程
      * @param uptimeMillis 设定时间
      */
-    boolean postAtTime(Runnable runnable, long uptimeMillis);
+    boolean postAtTime(final Runnable runnable,final long uptimeMillis);
 
     /**
      * 切换到主线程
      *
      * @param runnable 主线程
      */
-    void postToMain(@NonNull Runnable runnable);
+    void postToMain(@NonNull final Runnable runnable);
 
     /**
      * 在主线程上运行
      *
      * @param runnable 主线程
      */
-    default void postOnMain(@NonNull Runnable runnable) {
+    default void postOnMain(@NonNull final Runnable runnable) {
         if (isMainThread()) {
             runnable.run();
         } else {
@@ -64,5 +64,5 @@ public interface ThreadPost {
      *
      * @param runnable 工作线程
      */
-    void postIo(@NonNull Runnable runnable);
+    void postIo(@NonNull final Runnable runnable);
 }

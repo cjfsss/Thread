@@ -158,10 +158,10 @@ public final class AsyncLayoutInflaterPlus {
         }
 
         @Override
-        protected View onCreateView(String name, AttributeSet attrs) throws ClassNotFoundException {
+        protected View onCreateView(final String name,final AttributeSet attrs) throws ClassNotFoundException {
             for (String prefix : sClassPrefixList) {
                 try {
-                    View view = createView(name, prefix, attrs);
+                    final View view = createView(name, prefix, attrs);
                     if (view != null) {
                         return view;
                     }
@@ -183,7 +183,7 @@ public final class AsyncLayoutInflaterPlus {
         return obj;
     }
 
-    public void releaseRequest(AsyncLayoutInflaterPlus.InflateRequest obj) {
+    public void releaseRequest(final AsyncLayoutInflaterPlus.InflateRequest obj) {
         obj.callback = null;
         obj.inflater = null;
         obj.parent = null;

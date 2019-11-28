@@ -1,6 +1,8 @@
 package com.cjf.thread.expand.task;
 
 
+import com.cjf.collection.IData;
+
 import java.io.Serializable;
 
 /**
@@ -15,7 +17,7 @@ import java.io.Serializable;
  * @UpdateRemark: 更新说明：
  * @Version: 1.0
  */
-public class ThreadProgress implements Serializable {
+public class ThreadProgress implements Serializable, IData {
 
     private static final long serialVersionUID = 8550337799498100781L;
     /**
@@ -57,6 +59,13 @@ public class ThreadProgress implements Serializable {
      */
     public int threadCurrentProgress = 0;
 
+    public Object obj;
+
+    @Override
+    public <T> T get(Class<T> clazz) {
+        return clazz.cast(obj);
+    }
+
     public ThreadProgress copy() {
         ThreadProgress serviceResult = new ThreadProgress();
         serviceResult.position = position;
@@ -68,6 +77,7 @@ public class ThreadProgress implements Serializable {
         serviceResult.threadCurrentCount = threadCurrentCount;
         serviceResult.threadTotalCount = threadTotalCount;
         serviceResult.threadCurrentProgress = threadCurrentProgress;
+        serviceResult.obj = obj;
         return serviceResult;
     }
 

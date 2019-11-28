@@ -51,7 +51,7 @@ public final class AsyncLayoutLoader implements LifecycleObserver {
     }
 
     @UiThread
-    public void inflate(@LayoutRes int resId,@NonNull OnInflateFinishedListener listener) {
+    public void inflate(@LayoutRes int resId, @NonNull OnInflateFinishedListener listener) {
         inflate(resId, null, listener);
     }
 
@@ -141,6 +141,8 @@ public final class AsyncLayoutLoader implements LifecycleObserver {
         mRealView = null;
         mContext = null;
         mRootView = null;
+        mCountDownLatch = null;
+        mInflater = null;
         owner.getLifecycle().removeObserver(this);
     }
 }

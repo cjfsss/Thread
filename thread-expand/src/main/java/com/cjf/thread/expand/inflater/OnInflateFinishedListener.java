@@ -17,5 +17,5 @@ import android.view.ViewGroup;
  */
 public interface OnInflateFinishedListener {
 
-    void onInflateFinished(View view, int resId, ViewGroup parent);
+    void onInflateFinished(final View view, final int resId, final ViewGroup parent);
 }
