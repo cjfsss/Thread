@@ -3,6 +3,7 @@ package com.cjf.thread.expand;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
+import com.cjf.thread.expand.executor.ThreadTaskExecutor;
 import com.cjf.thread.expand.task.Task;
 import com.cjf.thread.expand.task.TaskManager;
 
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public class ConnectThread {
 
-    public static final String EXECUTOR_TASK = ThreadTask.class.getSimpleName();
+    public static final String EXECUTOR_TASK = ConnectThread.class.getSimpleName();
 
     @NonNull
     @Keep
