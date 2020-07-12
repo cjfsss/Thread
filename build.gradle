@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: 'config.gradle'
 buildscript {
     repositories {
         google()
@@ -18,7 +17,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
+        maven { url "file:///C:/Users/Administrator/.m2/repository" }
+        maven { url "https://www.jitpack.io" }
+        maven { url "https://raw.githubusercontent.com/cjfsss/CommonCode/master" }
     }
 }
 

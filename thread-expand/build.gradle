@@ -1,15 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    def versions = rootProject.ext.android
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
-    compileSdkVersion versions.compileSdkVersion
-    buildToolsVersion versions.buildToolsVersion
     defaultConfig {
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
-        versionCode versions.versionCode
-        versionName versions.versionName
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -32,20 +32,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    def deps = rootProject.ext.deps
-
-    implementation "com.cjf:function:1.0.0"
 
 }
 
 apply plugin: 'maven'
 uploadArchives{
-    def mavens = rootProject.ext.mavens
     repositories.mavenDeployer{
-//        repository(url: uri('../maven'))
-        repository(url:mavens.localUrl)
-        pom.groupId = mavens.groupId
-        pom.artifactId = mavens.Thread.artifactId
-        pom.version = mavens.Thread.version
+        repository(url:"file:///C:/Users/Administrator/.m2/repository")
+        pom.groupId = "com.cjf"
+        pom.artifactId = "thread"
+        pom.version = "1.1.1"
     }
 }
