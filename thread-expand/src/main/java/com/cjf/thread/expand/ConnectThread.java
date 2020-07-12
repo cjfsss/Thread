@@ -1,12 +1,13 @@
 package com.cjf.thread.expand;
 
-import android.content.Context;
-
-import com.cjf.thread.expand.inflater.AsyncLayoutLoader;
-import com.cjf.thread.expand.task.listener.IThreadTask;
-
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
+
+import com.cjf.thread.expand.task.Task;
+import com.cjf.thread.expand.task.TaskManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ProjectName: Thread
@@ -24,24 +25,24 @@ public class ConnectThread {
 
     public static final String EXECUTOR_TASK = ThreadTask.class.getSimpleName();
 
-    @SuppressWarnings("FinalStaticMethod")
     @NonNull
-    public static final ThreadTaskExecutor getExecutor() {
+    @Keep
+    public static ThreadTaskExecutor getThread() {
         return ThreadTaskExecutor.getInstance();
     }
 
+    @SuppressWarnings("rawtypes")
     @NonNull
-    public static AsyncLayoutLoader layoutLoader(Context context) {
-        return AsyncLayoutLoader.getInstance(context);
+    @Keep
+    public static TaskManager task(@NonNull Task.Builder taskBuilder) {
+        ArrayList<Task.Builder> builders = new ArrayList<>();
+        builders.add(taskBuilder);
+        return task(builders);
     }
 
     @NonNull
-    public static IThreadTask create() {
-        return new ThreadTask();
-    }
-
-    @NonNull
-    public static IThreadTask create(@NonNull final LifecycleOwner lifecycleOwner) {
-        return new ThreadTask(lifecycleOwner);
+    @Keep
+    public static TaskManager task(@NonNull final List<Task.Builder> taskList) {
+        return new TaskManager().setTaskList(taskList);
     }
 }

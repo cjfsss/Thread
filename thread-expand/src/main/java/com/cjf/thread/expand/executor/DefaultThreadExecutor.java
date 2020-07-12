@@ -16,10 +16,14 @@
 
 package com.cjf.thread.expand.executor;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.InvocationTargetException;
@@ -32,21 +36,21 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+final class DefaultThreadExecutor implements ThreadExecutor {
 
-public class DefaultThreadExecutor implements ThreadExecutor {
+    private static final String TAG = "DefaultThreadExecutor";
 
     private final Object mLock = new Object();
 
     /**
      * 多线程池
      */
+    @Nullable
     private SoftReference<ExecutorService> mPoolIO;
 
+    @Nullable
     private SoftReference<ExecutorService> mSingleIO;
 
-    @Nullable
     private volatile Handler mMainHandler;
 
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
@@ -57,28 +61,29 @@ public class DefaultThreadExecutor implements ThreadExecutor {
     private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
     private static final int KEEP_ALIVE_SECONDS = 30;
 
+    @NonNull
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
-        public Thread newThread(@NonNull Runnable runnable) {
+        public Thread newThread(Runnable runnable) {
             return new Thread(runnable, "AsyncTask #" + mCount.getAndIncrement());
         }
     };
 
-    private static final BlockingQueue<Runnable> sPoolWorkQueue =
-            new LinkedBlockingQueue<>(Integer.MAX_VALUE);
+    @NonNull
+    private static final BlockingQueue<Runnable> sPoolWorkQueue = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
 
     @NonNull
     public final ExecutorService getExecutorService() {
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
-                CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_SECONDS, TimeUnit.SECONDS,
-                sPoolWorkQueue, sThreadFactory);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,
+                                                                       KEEP_ALIVE_SECONDS, TimeUnit.SECONDS,
+                                                                       sPoolWorkQueue, sThreadFactory);
         threadPoolExecutor.allowCoreThreadTimeOut(true);
         return threadPoolExecutor;
     }
 
-    @NonNull
     @Override
+    @NonNull
     public ExecutorService getIO() {
         if (mPoolIO == null || mPoolIO.get() == null) {
             mPoolIO = new SoftReference<>(getExecutorService());
@@ -96,6 +101,7 @@ public class DefaultThreadExecutor implements ThreadExecutor {
     }
 
     @SuppressWarnings("FinalPrivateMethod")
+    @NonNull
     private final Handler getMainThread() {
         if (mMainHandler == null) {
             synchronized (mLock) {
@@ -108,12 +114,12 @@ public class DefaultThreadExecutor implements ThreadExecutor {
     }
 
     @Override
-    public boolean postDelayed(final Runnable runnable,final long delayMillis) {
+    public boolean postDelayed(@NonNull final Runnable runnable, final long delayMillis) {
         return getMainThread().postDelayed(runnable, delayMillis);
     }
 
     @Override
-    public boolean postAtTime(final Runnable runnable,final long uptimeMillis) {
+    public boolean postAtTime(@NonNull final Runnable runnable, final long uptimeMillis) {
         return getMainThread().postAtTime(runnable, uptimeMillis);
     }
 
@@ -133,22 +139,18 @@ public class DefaultThreadExecutor implements ThreadExecutor {
     }
 
     @SuppressWarnings("JavaReflectionMemberAccess")
-    @SuppressLint("ObsoleteSdkInt")
+    @NonNull
     private static Handler createAsync(@NonNull Looper looper) {
         if (Build.VERSION.SDK_INT >= 28) {
             return Handler.createAsync(looper);
         }
-        if (Build.VERSION.SDK_INT >= 16) {
-            try {
-                return Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class,
-                        boolean.class)
-                        .newInstance(looper, null, true);
-            } catch (IllegalAccessException ignored) {
-            } catch (InstantiationException ignored) {
-            } catch (NoSuchMethodException ignored) {
-            } catch (InvocationTargetException e) {
-                return new Handler(looper);
-            }
+        try {
+            return Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, boolean.class)
+                                .newInstance(looper, null, true);
+        } catch (IllegalAccessException | NoSuchMethodException | InstantiationException e) {
+            Log.e(TAG, "getMainThread createAsync" + e.getMessage());
+        } catch (InvocationTargetException e) {
+            return new Handler(looper);
         }
         return new Handler(looper);
     }

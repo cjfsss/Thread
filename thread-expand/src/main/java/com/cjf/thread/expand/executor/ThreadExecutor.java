@@ -16,9 +16,9 @@
 
 package com.cjf.thread.expand.executor;
 
-import java.util.concurrent.ExecutorService;
-
 import androidx.annotation.NonNull;
+
+import java.util.concurrent.ExecutorService;
 
 public interface ThreadExecutor extends ThreadPost {
 

@@ -1,12 +1,9 @@
-package com.cjf.thread.expand;
-
-import com.cjf.thread.expand.executor.DefaultThreadExecutor;
-import com.cjf.thread.expand.executor.ThreadExecutor;
-
-import java.util.concurrent.ExecutorService;
+package com.cjf.thread.expand.executor;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.concurrent.ExecutorService;
 
 public final class ThreadTaskExecutor implements ThreadExecutor {
 
@@ -17,6 +14,7 @@ public final class ThreadTaskExecutor implements ThreadExecutor {
 
     @NonNull
     private final ThreadExecutor mDefaultTaskExecutor;
+
 
     private ThreadTaskExecutor() {
         mDefaultTaskExecutor = new DefaultThreadExecutor();
@@ -55,31 +53,31 @@ public final class ThreadTaskExecutor implements ThreadExecutor {
         mDelegate = taskExecutor == null ? mDefaultTaskExecutor : taskExecutor;
     }
 
-    @NonNull
     @Override
+    @NonNull
     public ExecutorService getExecutorService() {
         return mDelegate.getExecutorService();
     }
 
-    @NonNull
     @Override
+    @NonNull
     public ExecutorService getIO() {
         return mDelegate.getIO();
     }
 
-    @NonNull
     @Override
+    @NonNull
     public ExecutorService singleIO() {
         return mDelegate.singleIO();
     }
 
     @Override
-    public boolean postDelayed(Runnable runnable, long delayMillis) {
+    public boolean postDelayed(@NonNull Runnable runnable, long delayMillis) {
         return mDelegate.postDelayed(runnable, delayMillis);
     }
 
     @Override
-    public boolean postAtTime(Runnable runnable, long uptimeMillis) {
+    public boolean postAtTime(@NonNull Runnable runnable, long uptimeMillis) {
         return mDelegate.postAtTime(runnable, uptimeMillis);
     }
 

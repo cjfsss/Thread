@@ -22,7 +22,7 @@ public interface ThreadPost {
      * @param runnable    运行
      * @param delayMillis 延迟时间
      */
-    boolean postDelayed(final Runnable runnable, final long delayMillis);
+    boolean postDelayed(@NonNull final Runnable runnable, final long delayMillis);
 
     /**
      * 指定时间执行
@@ -30,7 +30,7 @@ public interface ThreadPost {
      * @param runnable     主线程
      * @param uptimeMillis 设定时间
      */
-    boolean postAtTime(final Runnable runnable,final long uptimeMillis);
+    boolean postAtTime(@NonNull final Runnable runnable, final long uptimeMillis);
 
     /**
      * 切换到主线程

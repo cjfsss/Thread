@@ -30,28 +30,22 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     def deps = rootProject.ext.deps
 
-    implementation deps.Annotation
-    implementation deps.Lifecycle
-    implementation deps.AppCompat
-    implementation deps.CollectionExpand
+    implementation "com.cjf:function:1.0.0"
 
 }
 
-task makeJar(type: Copy) {
-    //删除存在的
-    delete 'build/libs/mvp-super.jar'
-    //设置拷贝的文件
-    from('build/intermediates/packaged-classes/release/')
-    //打进jar包后的文件目录
-    into('build/libs/')
-    //将classes.jar放入build/libs/目录下
-    //include ,exclude参数来设置过滤
-    //（我们只关心classes.jar这个文件）
-    include('classes.jar')
-    //重命名
-    rename ('classes.jar', 'mvp-super.jar')
-
+apply plugin: 'maven'
+uploadArchives{
+    def mavens = rootProject.ext.mavens
+    repositories.mavenDeployer{
+//        repository(url: uri('../maven'))
+        repository(url:mavens.localUrl)
+        pom.groupId = mavens.groupId
+        pom.artifactId = mavens.Thread.artifactId
+        pom.version = mavens.Thread.version
+    }
 }
-makeJar.dependsOn(build)
