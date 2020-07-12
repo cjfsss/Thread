@@ -147,7 +147,11 @@ final class DefaultThreadExecutor implements ThreadExecutor {
         try {
             return Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, boolean.class)
                                 .newInstance(looper, null, true);
-        } catch (IllegalAccessException | NoSuchMethodException | InstantiationException e) {
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "getMainThread createAsync" + e.getMessage());
+        } catch (NoSuchMethodException e) {
+            Log.e(TAG, "getMainThread createAsync" + e.getMessage());
+        } catch (InstantiationException e) {
             Log.e(TAG, "getMainThread createAsync" + e.getMessage());
         } catch (InvocationTargetException e) {
             return new Handler(looper);
