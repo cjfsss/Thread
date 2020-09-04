@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cjf.thread.expand.executor;
+package com.cjf.thread.executor;
 
 import androidx.annotation.NonNull;
 

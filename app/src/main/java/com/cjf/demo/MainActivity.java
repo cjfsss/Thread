@@ -1,4 +1,4 @@
-package com.cjf.thread;
+package com.cjf.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 

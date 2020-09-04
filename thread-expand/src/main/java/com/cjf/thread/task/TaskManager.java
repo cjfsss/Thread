@@ -1,10 +1,11 @@
-package com.cjf.thread.expand.task;
+package com.cjf.thread.task;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -25,7 +26,7 @@ public class TaskManager {
     private int mTotalCount;
     private ITask.IProgressUpdate<Integer> mProgressUpdate;
     private ITask.IPostExecute<Boolean> mPostExecute;
-    private List<Task.Builder> mTaskList;
+    private List<Task.Builder<?, ?, ?>> mTaskList;
 
 
     private TaskManager setTotalCount(int totalCount) {
@@ -49,7 +50,7 @@ public class TaskManager {
      * @param taskList 要执行的
      * @return
      */
-    public TaskManager setTaskList(@NonNull final List<Task.Builder> taskList) {
+    public TaskManager setTaskList(@NonNull final List<Task.Builder<?, ?, ?>> taskList) {
         mTaskList = taskList;
         return setTotalCount(mTaskList.size());
     }
@@ -62,27 +63,22 @@ public class TaskManager {
     private void setViewActive(@NonNull final ITask.IIsViewActive viewActive) {
         // 计数器
         mCountDownLatch = new CountDownLatch(mTotalCount);
-        Task.<CountDownLatch, Integer, Boolean>newBuilder()
-                .setDoInBackground((publishProgress, countDownLatches) -> {
-                    try {
-                        countDownLatches[0].await();
-                        return true;//顺利完成
-                    } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
-                        return false;
-                    }
-                })
-                .setViewActive(viewActive)
-                .setPostExecute(mPostExecute)
-                .startOnExecutor(mCountDownLatch);
+        Task.<CountDownLatch, Integer, Boolean>newBuilder().setDoInBackground((publishProgress, countDownLatches) -> {
+            try {
+                countDownLatches[0].await();
+                return true;//顺利完成
+            } catch (Exception e) {
+                Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                return false;
+            }
+        }).setViewActive(viewActive).setPostExecute(mPostExecute).startOnExecutor(mCountDownLatch);
     }
 
-    @SuppressWarnings("unchecked")
     public void startOnExecutor(@NonNull final ITask.IIsViewActive viewActive) {
         if (mTaskList == null) {
             return;
         }
-        for (Task.Builder task : mTaskList) {
+        for (Task.Builder<?, ?, ?> task : mTaskList) {
             task.setPostExecute(result -> {
                 // 一个任务完成
                 mCountDownLatch.countDown();
@@ -96,12 +92,11 @@ public class TaskManager {
         setViewActive(viewActive);
     }
 
-    @SuppressWarnings("unchecked")
     public void start(@NonNull final ITask.IIsViewActive viewActive) {
         if (mTaskList == null) {
             return;
         }
-        for (Task.Builder task : mTaskList) {
+        for (Task.Builder<?, ?, ?> task : mTaskList) {
             task.setPostExecute(result -> {
                 // 一个任务完成
                 mCountDownLatch.countDown();

@@ -1,4 +1,4 @@
-package com.cjf.thread.expand.inflater;
+package com.cjf.thread.inflater;
 
 import android.content.Context;
 import android.os.Handler;
